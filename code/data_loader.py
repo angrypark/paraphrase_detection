@@ -19,8 +19,8 @@ class ParaphraseDataGenerator:
         self.preprocessor = preprocessor
         
         # get size of train and validataion set
-        self.train_size = 300000
-        self.val_size = 19312
+        self.train_size = 300000 + 19312
+        self.val_size = 15134
         
         # data config
         self.train_dir = config.train_dir
@@ -46,7 +46,8 @@ class ParaphraseDataGenerator:
                             'sol.validation.txt': 219686, 
                             'sol.small.txt': 1000, 
                             "train.txt": 300000, 
-                            "val.txt": 19312}
+                            "val.txt": 19312, 
+                            "test.txt": 15134}
         
         self.pretrained_model, self.pretrained_sess = self.get_pretrained_model()
         self.feature_extractor = FeatureExtractor()
@@ -125,7 +126,13 @@ class ParaphraseDataGenerator:
                      model.queries_lengths: A_lengths,
                      model.replies_lengths: B_lengths, 
                      model.dropout_keep_prob: 1}
-        A_sentence_vector, B_sentence_vector = sess.run([model.encoding_queries, model.encoding_replies], feed_dict=feed_dict)
+        A_sentence_vector = sess.run(model.encoding_queries, feed_dict=feed_dict)
+        feed_dict = {model.input_queries: B,
+                     model.input_replies: A,
+                     model.queries_lengths: B_lengths,
+                     model.replies_lengths: A_lengths, 
+                     model.dropout_keep_prob: 1}
+        B_sentence_vector = sess.run(model.encoding_queries, feed_dict=feed_dict)
         return A_sentence_vector - B_sentence_vector
     
 
@@ -231,5 +238,5 @@ def parse_single_line(line, index_table, max_length):
 
 def split_data(data):
     A, B, labels = zip(*[line.split('\t') for line in data])
-    labels = [int(l) for l in labels]
+    labels = [1 if l=="1" else 0 for l in labels]
     return A, B, labels

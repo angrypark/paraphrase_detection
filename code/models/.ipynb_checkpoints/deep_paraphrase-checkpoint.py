@@ -125,7 +125,7 @@ class DeepParaphrase(BaseModel):
             self.probs = tf.sigmoid(self.logits)
             self.predictions = tf.cast(self.probs > 0.5, dtype=tf.int32)
             correct_predictions = tf.equal(self.predictions, tf.to_int32(tf.expand_dims(self.labels, -1)))
-            self.score = tf.reduce_mean(tf.cast(correct_predictions, "float"), name="accuracy")
+            self.score = tf.reduce_mean(tf.cast(correct_predictions, tf.int32), name="accuracy")
 
     def val(self, sess, feed_dict=None):
         loss = sess.run(self.loss, feed_dict=feed_dict)
