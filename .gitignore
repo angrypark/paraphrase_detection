@@ -1,7 +1,7 @@
-*.pkl
-**.txt
-**.tsv
-**.csv
+**/*.pkl
+**/*.txt
+**/*.tsv
+**/*.csv
 
 # Created by https://www.gitignore.io/api/python,jupyternotebook
 
