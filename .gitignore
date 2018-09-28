@@ -4,8 +4,8 @@
 
 ### JupyterNotebook ###
 .ipynb_checkpoints
-*/.ipynb_checkpoints/*
 */.ipynb_checkpoints
+*/*/.ipynb_checkpoints
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
 #
@@ -13,7 +13,8 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*./__pycache__ 
+*/__pycache__
+*/*/__pycache__
 *.py[cod]
 *$py.class
 
